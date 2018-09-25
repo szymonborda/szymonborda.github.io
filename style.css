@@ -1,0 +1,239 @@
+body {
+  font-family: 'Lato', sans-serif;
+  color: #555;
+  background-color: #eee;
+}
+
+.banner {
+  //min-height: 50vh;
+  text-align: center;
+  background-color: #6e2a86;
+  color: #ddd;
+  padding: 10em 0; //background-image: linear-gradient(120deg, #a054d5 0%, #f68084 100%);
+  background-attachment: fixed;
+  background: linear-gradient(120deg, #a054d5, #f68084, #d472a5);
+  background-size: 600% 600%;
+  -webkit-animation: gradientAnimation 10s ease infinite;
+  -moz-animation: gradientAnimation 10s ease infinite;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@-webkit-keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+@-moz-keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+.inner h1 {
+  font-size: 3em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+.inner p {
+  font-size: 1.6em;
+  font-weight: 300;
+  margin-bottom: 1.75em;
+}
+
+.start-inner {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 1em;
+  padding: 15px 10px;
+  width: 200px;
+  margin: auto;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.start-inner:hover {
+  background-color: rgba(1, 1, 1, 0.1);
+  cursor: pointer;
+}
+
+.first {
+  margin-top: 5em;
+}
+
+.who-are-we {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.who-are-we h2 {
+  font-weight: 700;
+}
+
+.who-are-we p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  color: #888;
+  line-height: 2em;
+}
+
+.who-are-we-img {
+  margin-top: 5em;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px 10px 0 0;
+  background-image: url('img/lab.jpg');
+  background-position: center;
+  background-size: cover;
+  transition: all 0.3s;
+}
+
+.perks {
+  background-color: #fff;
+}
+
+.perks .container {
+  padding-top: 5em;
+}
+
+.tile {
+  text-align: center;
+}
+
+.tile-text {
+  padding-top: 2em;
+  font-size: 1.2em;
+  padding: 1em 0 3em 0;
+}
+
+.categories .container {
+  padding-top: 5em;
+}
+
+.categories .row {
+  margin-top: 5em;
+}
+
+.subjects {
+  text-align: center;
+}
+
+.subjects {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.subjects h2 {
+  font-weight: 700;
+}
+
+.subjects p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  color: #888;
+  line-height: 2em;
+}
+
+.subject-outer {
+  padding: 1em;
+}
+
+.subject {
+  //border: 1px solid #000;
+  text-align: center;
+  border-radius: 10px;
+  padding: 0 0 1em 0;
+  background-color: #fff;
+}
+
+.subject a {
+  display: block;
+  width: 100%;
+  height: 150px;
+  background-image: url('img/example_subject.jpg');
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.subject h2 {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-top: 1.5em;
+}
+
+.subject p {
+  display: block;
+  font-size: 1em;
+  margin-top: 0.5em;
+  padding: 20px;
+  color: #888;
+}
+
+.go-button {
+  border-radius: 5px;
+  border: 1px solid #555;
+  width: 100px;
+  margin: 0 auto 1em auto;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 10px;
+  margin-bottom: 2em;
+  transition: all 0.2s;
+}
+
+.go-button:hover {
+  background-color: rgba(1, 1, 1, 0.1);
+  cursor: pointer;
+}
+
+footer {
+  width: 100%;
+  min-height: 200px;
+  padding: 50px 0 50px 0;
+  margin-top: 5em;
+  text-align: center;
+  background-color: #303030;
+  color: #eee;
+}
