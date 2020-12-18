@@ -19,7 +19,6 @@ body {
 
 .snake {
     background-color: #0f0;
-    //border: 1px solid #000;
     box-sizing: border-box;
     margin: 1px;
 }
@@ -28,4 +27,32 @@ body {
     background-color: #f00;
     box-sizing: border-box;
     margin: 1px;
+}
+
+#move-up {
+    grid-column-start: 8;
+    grid-column-end: 15;
+    grid-row-start: 1;
+    grid-row-end: 8;
+}
+
+#move-left {
+    grid-column-start: 1;
+    grid-column-end: 8;
+    grid-row-start: 8;
+    grid-row-end: 15;
+}
+
+#move-right {
+    grid-column-start: 15;
+    grid-column-end: 22;
+    grid-row-start: 8;
+    grid-row-end: 15;
+}
+
+#move-down {
+    grid-column-start: 8;
+    grid-column-end: 15;
+    grid-row-start: 15;
+    grid-row-end: 22;
 }
