@@ -47,7 +47,7 @@ class Snake {
                         y: 0
                     }
                 }
-                break;
+                break
             case 38:
             case 87:
                 if(this.direction.y != 1) {
@@ -56,7 +56,7 @@ class Snake {
                         y: -1
                     }
                 }
-                break;
+                break
             case 39:
             case 68:
                 if(this.direction.x != -1) {
@@ -65,7 +65,7 @@ class Snake {
                         y: 0
                     }
                 }
-                break;
+                break
             case 40:
             case 83:
                 if(this.direction.y != -1) {
@@ -74,42 +74,53 @@ class Snake {
                         y: 1
                     }
                 }
-                break;   
+                break  
         }
     }
 
-    isDead() {
+    isDead(walls) {
         if ((this.parts[0].x > 21) || (this.parts[0].y > 21) || (this.parts[0].x < 1) || (this.parts[0].y < 1)) {
-            console.log('ściana');
+            console.log('ściana')
             return true
         }
     
         for (let i = 1; i < this.parts.length; i++) {
             if ((this.parts[i].x == this.parts[0].x) && (this.parts[i].y == this.parts[0].y)) {
-                console.log('kanibal');
+                console.log('kanibal')
                 return true
             }
         }
+            for (let i = 0; i < walls.parts.length; i++) {
+                if ((this.parts[0].x == walls.parts[i].x) && (this.parts[0].y == walls.parts[i].y)) {
+                    return true
+                }
+            }
     
         return false
     }
 }
 
 class Apple {
-    constructor(snake) {
+    constructor(snake, walls) {
         this.pos = {
             x: 1,
             y: 1
         }
-        this.newPos(snake)
+        this.newPos(snake, walls)
     }
 
-    newPos(snake) {
+    newPos(snake, walls) {
         this.pos.x = Math.floor(Math.random() * 21) + 1
         this.pos.y = Math.floor(Math.random() * 21) + 1
         snake.parts.forEach(part => {
             if ((part.x == this.pos.x) && (part.y == this.pos.y)) {
-                this.newPos(snake)
+                this.newPos(snake, walls)
+            }
+        })
+
+        walls.parts.forEach(part => {
+            if ((part.x == this.pos.x) && (part.y == this.pos.y)) {
+                this.newPos(snake, walls)
             }
         })
     }
@@ -123,6 +134,72 @@ class Apple {
     }
 }
 
+class Walls {
+    constructor(difficulty) {
+        if (difficulty == '4') {
+            this.generate()
+        } else {
+            this.parts = []
+        }
+        console.log(this.parts)
+    }
+
+    generate() {
+        let wallsCount = Math.floor(Math.random() * 3) + 3
+        let wallDirection = 0
+        let wallAddon = {}
+        let wallLength = 0
+        this.parts = []
+        for (let i = 0; i < wallsCount; i++ ) {
+            wallLength = Math.floor(Math.random() * 2) + 3
+            wallDirection = Math.floor(Math.random() * 3) + 1
+            switch (wallDirection) {
+                case 1:
+                    wallAddon = {
+                        x: 1,
+                        y: 0
+                    }
+                    break
+                case 2:
+                    wallAddon = {
+                        x: 0,
+                        y: 1
+                    }
+                    break
+                case 3:
+                    wallAddon = {
+                        x: -1,
+                        y: 0
+                    }
+                    break
+                case 4:
+                    wallAddon = {
+                        x: 0,
+                        y: -1
+                    }
+                    break
+            }
+
+            this.parts.push({x: Math.floor(Math.random() * 21) + 1, y: Math.floor(Math.random() * 21) + 1})
+            for (let j = 0; j < wallLength-1; j++) {
+                if ((this.parts[this.parts.length - 1].x + wallAddon.x > 21) || (this.parts[this.parts.length - 1].y + wallAddon.y > 21) || (this.parts[this.parts.length - 1].x + wallAddon.x < 1) || (this.parts[this.parts.length - 1].y + wallAddon.y < 1)) {
+                    break
+                }
+                let doBreak = false
+                this.parts.forEach((part) => {
+                    if ((this.parts[this.parts.length - 1].x + wallAddon.x == part.x) && (this.parts[this.parts.length - 1].y + wallAddon.y == part.y)) {
+                        doBreak = true
+                    }
+                })
+                if(doBreak) {
+                    break
+                }
+                this.parts.push({x: this.parts[this.parts.length - 1].x + wallAddon.x, y: this.parts[this.parts.length - 1].y + wallAddon.y})
+            }
+        }
+    }
+}
+
 class Game {
     constructor(board) {
         this.board = board
@@ -130,12 +207,15 @@ class Game {
         this.keyTriggers()
     }
 
-    render(snake, apple) {
+    render(snake, apple, walls) {
         //this.board.innerHTML = ''
         document.querySelectorAll('.snake').forEach((elem) => {
             elem.remove()
         })
         document.querySelectorAll('.apple').forEach((elem) => {
+            elem.remove()
+        })
+        document.querySelectorAll('.wall').forEach((elem) => {
             elem.remove()
         })
         snake.parts.forEach((part) => {
@@ -144,6 +224,13 @@ class Game {
             snakeDiv.style.gridRowStart = part.y
             snakeDiv.classList.add('snake')
             this.board.appendChild(snakeDiv)
+        })
+        walls.parts.forEach((part) => {
+            let wallDiv = document.createElement('div')
+            wallDiv.style.gridColumnStart = part.x
+            wallDiv.style.gridRowStart = part.y
+            wallDiv.classList.add('wall')
+            this.board.appendChild(wallDiv)
         })
 
         let appleDiv = document.createElement('div')
@@ -172,24 +259,93 @@ class Game {
 
         document.getElementById('move-down').addEventListener('click', () => {
             this.lastClickedKey = 40
-        })
+        })   
+    }
+
+    startTrigger() {
+        this.updateScore(0)
+        document.getElementById('play-again').addEventListener('click', () => {
+            let snake = new Snake()
+            let walls = new Walls(this.getDifficulty())
+            let apple = new Apple(snake, walls)
+            this.startGame(this.getDifficulty(), snake, apple, walls)
+        }) 
+    }
+
+    updateScore(snake) {
+        if (snake == 0) {
+            document.getElementById('highscore-span').innerHTML = this.getHighScore()
+        } else {
+            document.getElementById('score').innerHTML = 'score: ' + (snake.parts.length - 1)
+            document.getElementById('score-span').innerHTML = (snake.parts.length - 1)
+            document.getElementById('highscore-span').innerHTML = this.getHighScore()
+        }
+    }
+
+    saveHighScore(snake) {
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("snakeScore", (snake.parts.length - 1))
+          }
+    }
+
+    getHighScore() {
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.getItem("snakeScore") != null) {
+                return localStorage.getItem("snakeScore")
+            } else {
+                return 0
+            }
+            
+        } else {
+            return "No browser support!"
+        }
+    }
+
+
+
+    getDifficulty() {
+        return document.getElementById('difficulty').value
+    }
+
+    startGame(difficulty, snake, apple, walls) {
+        console.log(difficulty)
+        let interval = 0
+        switch(difficulty) {
+            case '1':
+                interval = 200
+                break
+            case '2':
+                interval = 150
+                break
+            case '3':
+                interval = 100
+                break
+            case '4':
+                interval = 150
+                break
+        }
+        document.getElementById('menu').style.display = 'none'
+        let gameInterval = setInterval(() => {
+            snake.changeDirection(this.lastClickedKey)
+            snake.move()
+            if (snake.isDead(walls)) {
+                if (this.getHighScore() < (snake.parts.length -1)) {
+                    this.saveHighScore(snake);
+                    this.updateScore(snake)
+                }
+                clearInterval(gameInterval)
+                document.getElementById('score-div').style.display = 'block'
+                document.getElementById('menu').style.display = 'block'
+                return
+            }
+            if (apple.isEaten(snake)) {
+                snake.grow()
+                apple.newPos(snake, walls)
+            }
+            this.render(snake, apple, walls)
+            this.updateScore(snake)
+        }, interval)
     }
 }
-
-let snake1 = new Snake()
-let apple1 = new Apple(snake1)
 let game = new Game(document.getElementById('game'))
-
-let gameInterval = setInterval(() => {
-    snake1.changeDirection(game.lastClickedKey)
-    snake1.move()
-    if (snake1.isDead()) {
-        clearInterval(gameInterval)
-        return
-    }
-    if (apple1.isEaten(snake1)) {
-        snake1.grow()
-        apple1.newPos(snake1)
-    }
-    game.render(snake1, apple1)
-}, 200);
+game.startTrigger()
