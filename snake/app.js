@@ -145,13 +145,13 @@ class Walls {
     }
 
     generate() {
-        let wallsCount = Math.floor(Math.random() * 3) + 3
+        let wallsCount = Math.floor(Math.random() * 3) + 6
         let wallDirection = 0
         let wallAddon = {}
         let wallLength = 0
         this.parts = []
         for (let i = 0; i < wallsCount; i++ ) {
-            wallLength = Math.floor(Math.random() * 2) + 3
+            wallLength = Math.floor(Math.random() * 3) + 3
             wallDirection = Math.floor(Math.random() * 3) + 1
             switch (wallDirection) {
                 case 1:
